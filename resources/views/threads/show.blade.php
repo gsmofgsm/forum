@@ -8,12 +8,10 @@
                     <div class="panel-heading">All Threads</div>
 
                     <div class="panel-body">
-                        @foreach($threads as $thread)
-                            <article>
-                                <h4>$thread->title</h4>
-                                $thread->body
-                            </article>
-                        @endforeach
+                        <article>
+                            <h4>{{ $thread->title }}</h4>
+                            {{ $thread->body }}
+                        </article>
                     </div>
                 </div>
             </div>
