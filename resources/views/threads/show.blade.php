@@ -5,7 +5,10 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">{{ $thread->title }}</div>
+                    <div class="panel-heading">
+                        <h3>{{ $thread->title }}</h3>
+                        {{ $thread->creator->name }} posted {{ $thread->created_at->diffForHumans() }}
+                    </div>
 
                     <div class="panel-body">
                         {{ $thread->body }}
