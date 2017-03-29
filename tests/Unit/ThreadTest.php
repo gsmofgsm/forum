@@ -12,19 +12,35 @@ class ThreadTest extends TestCase
 {
     use DatabaseMigrations;
 
-    /** @test */
-    function a_thread_has_replies()
-    {
-        $thread = factory('App\Thread')->create();
+    protected $thread;
 
-        $this->assertInstanceOf(Collection::class, $thread->replies);
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->thread = factory('App\Thread')->create();
     }
 
     /** @test */
-    function a_thread_has_a_creator()
+    function it_has_replies()
     {
-        $thread = factory('App\Thread')->create();
+        $this->assertInstanceOf(Collection::class, $this->thread->replies);
+    }
 
-        $this->assertInstanceOf(User::class, $thread->creator);
+    /** @test */
+    function it_has_a_creator()
+    {
+        $this->assertInstanceOf(User::class, $this->thread->creator);
+    }
+
+    /** @test */
+    function it_can_add_a_reply()
+    {
+        $this->thread->addReply([
+            'body' => 'foobar',
+            'user_id' => 1
+        ]);
+
+        $this->assertCount(1, $this->thread->replies);
     }
 }
