@@ -28,9 +28,26 @@
         @if( auth()->check() )
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
-                    reply
+                    <form action="{{ $thread->path() . '/replies/' }}" method="POST">
+                        {{ csrf_field() }}
+
+                        <!-- Body Form Input -->
+                        <div class="form-group">
+                            <textarea name="body" id="body" class="form-control">{{ old('body') }}</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Post</button>
+                        </div>
+                    </form>
                 </div>
             </div>
+        @else
+            <p>
+                Please
+                <a href="{{ route('login') }}">sign in </a>
+                to participate in this discussion
+            </p>
         @endif
     </div>
 @endsection
