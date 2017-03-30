@@ -23,22 +23,33 @@ class ParticipateInForumTest extends TestCase
     function an_unauthenticated_user_may_not_paticipate_in_form_threads()
     {
         $this->expectException(AuthenticationException::class);
-        $this->post('threads/1/replies', []);
+        $this->post('threads/some_channel/1/replies', []);
     }
 
     /** @test */
     function an_authenticated_user_may_participate_in_forum_threads()
     {
-        $user = factory('App\User')->create();
-        $this->be($user);
+        $this->signIn();
 
         $thread = factory('App\Thread')->create();
-
         $reply = factory('App\Reply')->make();
+
         $this->post( $thread->path() . '/replies', $reply->toArray());
 
         $this->get( $thread->path() )
              ->assertSee( $reply->body );
+    }
+
+    /** @test */
+    function a_reply_requires_a_bodya_reply_requires_a_body()
+    {
+        $this->withExceptionHandling()->signIn();
+
+        $thread = create('App\Thread');
+        $reply = make('App\Reply', ['body' => null]);
+
+        $this->post($thread->path() . '/replies', $reply->toArray())
+            ->assertSessionHasErrors('body');
     }
 
     /** @test */
