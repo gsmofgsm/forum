@@ -20,11 +20,11 @@ class CreateThreadsTest extends TestCase
     }
 
     /** @test */
-    function an_authenticated_user_can_create_new_form_threads()
+    function an_authenticated_user_can_create_new_form_threads_my_version()
     {
-        $this->actingAs(factory('App\User')->create());
+        $this->signIn();
 
-        $thread = factory('App\Thread')->raw();
+        $thread = raw('App\Thread');
 
         $this->post('/threads', $thread);
 
@@ -36,11 +36,11 @@ class CreateThreadsTest extends TestCase
     }
 
     /** @test */
-    function an_authenticated_user_can_create_new_form_threads_wrong_version()
+    function an_authenticated_user_can_create_new_form_threads_jeffreys_version()
     {
-        $this->actingAs(factory('App\User')->create());
+        $this->signIn();
 
-        $thread = factory('App\Thread')->create();
+        $thread = make('App\Thread');
 
         $this->post('/threads', $thread->toArray());
 
