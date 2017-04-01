@@ -28,9 +28,8 @@ abstract class Filters
         $this->builder = $builder;
 
         foreach($this->filters as $filter) {
-            if ($this->filterExists($filter)) {
-                $this->$filter($this->request->$filter);
-            }
+            if (! $this->filterExists($filter)) return;
+            $this->$filter($this->request->$filter);
         }
 
         return $builder;
