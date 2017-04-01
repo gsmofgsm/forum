@@ -13,11 +13,9 @@ use Illuminate\Http\Request;
 
 abstract class Filters
 {
-
-    /**
-     * @var Request
-     */
     protected $request, $builder;
+
+    protected $filters = [];
 
     public function __construct(Request $request)
     {
@@ -29,8 +27,10 @@ abstract class Filters
     {
         $this->builder = $builder;
 
-        if ($this->request->has('by')) {
-            return $this->by($this->request->by);
+        foreach($this->filters as $filter) {
+            if (method_exists($this, $filter) && $this->request->has($filter)) {
+                $this->$filter($this->request->$filter);
+            }
         }
 
         return $builder;
