@@ -23,8 +23,8 @@ class ThreadFilters {
     {
         $this->builder = $builder;
 
-        if ($username = $this->request->by) {
-            return $this->by($username);
+        if ( $this->request->has('by' ) ) {
+            return $this->by($this->request->by);
         }
 
         return $builder;
