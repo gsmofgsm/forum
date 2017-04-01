@@ -28,20 +28,13 @@ abstract class Filters
         $this->builder = $builder;
 
         foreach($this->getFilters() as $filter => $value) {
-            $this->$filter($value);
+            if(method_exists($this, $filter)) {
+                $this->$filter($value);
+            }
         }
 
         return $builder;
 
-    }
-
-    /**
-     * @param $filter
-     * @return bool
-     */
-    protected function filterExists($filter)
-    {
-        return method_exists($this, $filter) && $this->request->has($filter);
     }
 
     /**
