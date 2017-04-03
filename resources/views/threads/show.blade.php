@@ -48,7 +48,7 @@
                     <div class="panel-body">
                         This thread is created by {{ $thread->creator->name }}
                         {{ $thread->created_at->diffForHumans() }}.
-                        It has {{ $thread->repliesCount }} comments.
+                        It has {{ $thread->replies_count }} comments.
                     </div>
                 </div>
 
