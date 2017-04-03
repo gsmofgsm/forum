@@ -37,4 +37,9 @@ class Thread extends Model
     {
         return $filters->apply($query);
     }
+
+    public function getRepliesCountAttribute()
+    {
+        return $this->replies()->count();
+    }
 }
