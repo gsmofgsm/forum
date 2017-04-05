@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 class ThreadFilters extends Filters
 {
     protected $filters = ['by'];
+    protected $orders = ['popular'];
+    protected $default_orders = ['latest'];
 
     /**
      * Filter a thread by a given username
@@ -19,5 +21,15 @@ class ThreadFilters extends Filters
     {
         $user = User::where('name', $username)->firstOrFail();
         return $this->builder->where('user_id', $user->id);
+    }
+
+    protected function popular()
+    {
+        return $this->builder->orderBy('replies_count', 'desc');
+    }
+
+    protected function latest()
+    {
+        return $this->builder->orderBy('created_at', 'desc');
     }
 }

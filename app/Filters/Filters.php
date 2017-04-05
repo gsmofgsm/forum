@@ -16,6 +16,8 @@ abstract class Filters
     protected $request, $builder;
 
     protected $filters = [];
+    protected $orders = [];
+    protected $default_orders = [];
 
     public function __construct(Request $request)
     {
@@ -33,6 +35,12 @@ abstract class Filters
             }
         }
 
+        foreach($this->getOrders() as $order => $value) {
+            if(method_exists($this, $order)) {
+                $this->$order();
+            }
+        }
+
         return $builder;
 
     }
@@ -43,5 +51,21 @@ abstract class Filters
     protected function getFilters()
     {
         return $this->request->intersect($this->filters);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getOrders()
+    {
+        $orders = $this->request->intersect($this->orders);
+
+        foreach( $this->default_orders as $order ){
+            if( ! in_array($order, $orders) ){
+                $orders[] = $order;
+            }
+        }
+
+        return $orders;
     }
 }
