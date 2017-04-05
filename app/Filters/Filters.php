@@ -62,7 +62,7 @@ abstract class Filters
 
         foreach( $this->default_orders as $order ){
             if( ! in_array($order, $orders) ){
-                $orders[] = $order;
+                $orders[$order] = 1;
             }
         }
 

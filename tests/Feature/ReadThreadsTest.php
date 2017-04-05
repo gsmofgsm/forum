@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -84,5 +85,23 @@ class ReadThreadsTest extends TestCase
         $count = array_column( $response, 'replies_count' );
 
         $this->assertEquals([3, 2, 0], $count);
+    }
+
+    /** @test */
+    function when_orderby_popularity_threads_with_same_popularity_are_ordered_by_latest()
+    {
+        $thread_old = create('App\Thread', ['created_at' => Carbon::yesterday()]);
+        create('App\Reply', ['thread_id' => $thread_old->id], 2);
+
+        $thread_new = create('App\Thread', ['created_at' => Carbon::now()]);
+        create('App\Reply', ['thread_id' => $thread_new->id], 2);
+
+        $threadNoReply = $this->thread;
+
+        $response = $this->getJson('/threads/?popular=1')->json();
+
+        $ids = array_column($response, 'id');
+
+        $this->assertEquals([$thread_new->id, $thread_old->id, $threadNoReply->id], $ids);
     }
 }
