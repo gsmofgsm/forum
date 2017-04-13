@@ -19,7 +19,7 @@ class Thread extends Model
 
     public function path()
     {
-        return "/threads/{$this->channel->slug}/{$this->id}" ;
+        return "/threads/{$this->channel->slug}/{$this->id}";
     }
 
     public function addReply($reply)
@@ -29,7 +29,9 @@ class Thread extends Model
 
     public function replies()
     {
-        return $this->hasMany(Reply::class);
+        return $this->hasMany(Reply::class)
+            ->withCount('favorites')
+            ->with('owner');
     }
 
     public function channel()
