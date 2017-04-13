@@ -15,7 +15,7 @@ class Reply extends Model
 
     public function favorite()
     {
-        if(! $this->favorites()->where(['user_id' => auth()->id()])->exists()) {
+        if(! $this->isFavorited()) {
             $this->favorites()->create(['user_id' => auth()->id()]);
         }
     }
@@ -23,5 +23,10 @@ class Reply extends Model
     public function favorites()
     {
         return $this->morphMany(Favorite::class, 'favorited');
+    }
+
+    public function isFavorited()
+    {
+        return $this->favorites()->where(['user_id' => auth()->id()])->exists();
     }
 }

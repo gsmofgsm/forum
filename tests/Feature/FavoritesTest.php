@@ -43,4 +43,15 @@ class FavoritesTest extends TestCase
 
         $this->assertCount(1, $reply->favorites);
     }
+
+
+    /** @test */
+    function a_reply_favorited_by_an_authticated_user_isFavorited()
+    {
+        $this->signIn();
+        $reply = create('App\Reply');
+
+        $this->post('/replies/' . $reply->id . '/favorites');
+        $this->assertTrue($reply->isFavorited());
+    }
 }
