@@ -120,7 +120,7 @@ class ThreadsController extends Controller
      */
     protected function getThreads(Channel $channel, ThreadFilters $filters)
     {
-        $threads = Thread::with('channel')->filter($filters);
+        $threads = Thread::filter($filters);
 //        $threads = Thread::filter($filters);
 
         if ($channel->exists) {
