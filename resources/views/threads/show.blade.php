@@ -7,7 +7,10 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3>{{ $thread->title }}</h3>
-                        {{ $thread->creator->name }} posted {{ $thread->created_at->diffForHumans() }}
+                        <a href="{{ route('profile', $thread->creator) }}">
+                            {{ $thread->creator->name }}
+                        </a>
+                        posted {{ $thread->created_at->diffForHumans() }}
                     </div>
 
                     <div class="panel-body">
