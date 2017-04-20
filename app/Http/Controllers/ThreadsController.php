@@ -115,7 +115,7 @@ class ThreadsController extends Controller
                 return response(['status'=>'Permission denied'], 403);
             }
 
-            return redirect('/login');
+            return abort( 403, 'You do not have permission.');
         }
         $thread->replies()->delete();
         $thread->delete();
